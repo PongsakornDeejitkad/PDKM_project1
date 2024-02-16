@@ -6,6 +6,7 @@ import (
 	"order-management/models"
 	"order-management/utils"
 	"os"
+	"os/signal"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,4 +33,10 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	e.Logger.Fatal(e.Start(":8080"))
+
+	// Wait for an interrupt signal (e.g., Ctrl+C) to gracefully shut down the server
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+
 }
