@@ -23,7 +23,7 @@ func ConnectDB() error {
 	// DB.Debug()
 
 	// migrateDB()
-	//migrateData()
+	// migrateData()
 
 	return err
 }
