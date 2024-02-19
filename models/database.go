@@ -20,14 +20,15 @@ func ConnectDB() error {
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
-	// DB.Debug()
 
-	// migrateDB()
-	// migrateData()
+	migrateDB()
 
 	return err
 }
 
 func migrateDB() {
-	DB.AutoMigrate(&User{})
+	DB.AutoMigrate(
+		&User{},
+		&Customer{},
+		&CustomerPayment{})
 }

@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"log"
 	"net/http"
 	"order-management/models"
+	"order-management/routes"
 	"order-management/utils"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,11 +36,44 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	e.Logger.Fatal(e.Start(":8080"))
 
-	// Wait for an interrupt signal (e.g., Ctrl+C) to gracefully shut down the server
-	quit := make(chan os.Signal, 1)
+	v1 := e.Group("/v1")
+	// v1.Use(utils.JWTMiddleware)
+
+	routes.CustomerRoutes(v1)
+
+	data, err := json.MarshalIndent(e.Routes(), "", "  ")
+	if err != nil {
+		return
+	}
+	os.WriteFile("routes.json", data, 0644)
+
+	serveGracefulShutdown(e)
+}
+
+func serveGracefulShutdown(e *echo.Echo) {
+	go func() {
+		var port string
+		port = os.Getenv("HTTP_PORT")
+		if port == "" {
+			port = utils.ViperGetString("http.port")
+		}
+
+		if err := e.Start(port); err != nil {
+			log.Println("shutting down the server", err)
+
+		}
+	}()
+
+	// Wait for interrupt signal to gracefully shutdown the server with a timeout
+	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
 
+	gracefulShutdownTimeout := 30 * time.Second
+	ctx, cancel := context.WithTimeout(context.Background(), gracefulShutdownTimeout)
+	defer cancel()
+	if err := e.Shutdown(ctx); err != nil {
+		log.Fatal(err.Error())
+	}
 }
