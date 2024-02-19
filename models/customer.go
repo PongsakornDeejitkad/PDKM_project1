@@ -12,6 +12,7 @@ type Customer struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"default: NOW()"`
 
 	CustomerPayments []CustomerPayment `json:"customer_payments" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	CustomerAddress []CustomerAddress `json:"customer_address" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type CustomerPayment struct {
@@ -21,6 +22,21 @@ type CustomerPayment struct {
 	Provider    string    `json:"provider"`
 	AccountNo   string    `json:"account_no"`
 	ExpireDate  time.Time `json:"expire_date"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+
+	Customer Customer `json:"customer" gorm:"foreignKey:CustomerID"`
+}
+
+type CustomerAddress struct {
+	ID          int    `json:"id" gorm:"primary_key"`
+	CustomerID  int    `json:"customer_id"`
+	District    string `json:"district"`
+	SubDistrict string `json:"sub_district"`
+	City        string `json:"city"`
+	ZipCode     string `json:"zip_code"`
+	Country     string `json:"country"`
+	Telephone   string `json:"telephone"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 

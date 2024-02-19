@@ -9,9 +9,7 @@ import (
 	"order-management/routes"
 	"order-management/utils"
 	"os"
-	"os/signal"
 	"time"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -38,10 +36,11 @@ func main() {
 	})
 
 	v1 := e.Group("/v1")
-	// v1.Use(utils.JWTMiddleware)
+	// v1.Use(utils.JWTMiddleware) waiting for middleware
 
 	routes.CustomerRoutes(v1)
 
+	// write routes details to routes.json
 	data, err := json.MarshalIndent(e.Routes(), "", "  ")
 	if err != nil {
 		return
@@ -64,11 +63,6 @@ func serveGracefulShutdown(e *echo.Echo) {
 
 		}
 	}()
-
-	// Wait for interrupt signal to gracefully shutdown the server with a timeout
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
 
 	gracefulShutdownTimeout := 30 * time.Second
 	ctx, cancel := context.WithTimeout(context.Background(), gracefulShutdownTimeout)

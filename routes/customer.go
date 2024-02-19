@@ -2,7 +2,6 @@ package routes
 
 import (
 	"order-management/controllers"
-
 	"github.com/labstack/echo/v4"
 )
 
