@@ -14,7 +14,7 @@ type Products struct {
 	Price        float64        `json:"price" gorm:"float"`
 	Cost         float64        `json:"cost" gorm:"float"`
 	CategoryID   int            `json:"category_id" gorm:"integer"`
-	InventoryID  int            `json:"inventory_id" gorm:"integer"`
+	Quantity     int            `json:"quantity" gorm:"integer"`
 	CreatedAt    time.Time      `json:"created_at" gorm:"default: NOW()"`
 	UpdatedAt    time.Time      `json:"updated_at" gorm:"default: NOW()"`
 	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
