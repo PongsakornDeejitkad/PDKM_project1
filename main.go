@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"net/http"
 	"order-management/models"
 	"order-management/routes"
 	"order-management/utils"
 	"os"
+	"os/signal"
 	"time"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -40,13 +41,6 @@ func main() {
 
 	routes.CustomerRoutes(v1)
 
-	// write routes details to routes.json
-	data, err := json.MarshalIndent(e.Routes(), "", "  ")
-	if err != nil {
-		return
-	}
-	os.WriteFile("routes.json", data, 0644)
-
 	serveGracefulShutdown(e)
 }
 
@@ -63,6 +57,11 @@ func serveGracefulShutdown(e *echo.Echo) {
 
 		}
 	}()
+
+	// Wait for interrupt signal to gracefully shutdown the server with a timeout
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
 
 	gracefulShutdownTimeout := 30 * time.Second
 	ctx, cancel := context.WithTimeout(context.Background(), gracefulShutdownTimeout)
