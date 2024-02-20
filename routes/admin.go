@@ -7,9 +7,9 @@ import (
 )
 
 func AdminRoutes(e *echo.Group) {
-	customerRoute := e.Group("/admins")
+	adminRoute := e.Group("/admins")
 
-	customerRoute.POST("", controllers.CreateCustomer)
-	customerRoute.GET("/:id", controllers.GetCustomer)
-	customerRoute.GET("", controllers.ListCustomer)
+	adminRoute.POST("", controllers.CreateAdmin)
+	adminRoute.GET("/:id", controllers.GetAdmin)
+	adminRoute.GET("", controllers.ListAdmin)
 }
