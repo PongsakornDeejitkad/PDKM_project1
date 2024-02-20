@@ -10,7 +10,7 @@ import (
 )
 
 func CreateCustomer(c echo.Context) error {
-	customer := models.Customer{}
+	customer := models.Customers{}
 	c.Bind(&customer)
 
 	if err := models.DB.Create(&customer).Error; err != nil {
@@ -23,7 +23,7 @@ func CreateCustomer(c echo.Context) error {
 }
 
 func GetCustomer(c echo.Context) error {
-	customer := models.Customer{}
+	customer := models.Customers{}
 
 	customerIdString := c.Param("id")
 	customerId, _ := strconv.Atoi(customerIdString)
@@ -44,7 +44,7 @@ func GetCustomer(c echo.Context) error {
 }
 
 func ListCustomer(c echo.Context) error {
-	customers := []models.Customer{}
+	customers := []models.Customers{}
 
 	if err := models.DB.Find(&customers).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{

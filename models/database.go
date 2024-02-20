@@ -29,7 +29,7 @@ func ConnectDB() error {
 func migrateDB() {
 	DB.AutoMigrate(
 		&User{},
-		&Customer{},
+		&Customers{},
 		&CustomerPayment{},
 		&CustomerAddress{},
 		&Products{},

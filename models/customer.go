@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Customer struct {
+type Customers struct {
 	ID        int       `json:"id" gorm:"primary_key"`
 	Name      string    `json:"name" gorm:"not null; varchar(100)"`
 	Email     string    `json:"email" gorm:"not null; unique; varchar(100)"`
@@ -25,7 +25,7 @@ type CustomerPayment struct {
 	CreatedAt   time.Time `json:"created_at" gorm:"default: NOW()"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"default: NOW()"`
 
-	Customer Customer `json:"customer" gorm:"foreignKey:CustomerID"`
+	Customer Customers `json:"customer" gorm:"foreignKey:CustomerID"`
 }
 
 type CustomerAddress struct {
@@ -40,5 +40,5 @@ type CustomerAddress struct {
 	CreatedAt   time.Time `json:"created_at" gorm:"default: NOW()"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"default: NOW()"`
 
-	Customer Customer `json:"customer" gorm:"foreignKey:CustomerID"`
+	Customer Customers `json:"customer" gorm:"foreignKey:CustomerID"`
 }
