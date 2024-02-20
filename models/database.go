@@ -30,5 +30,9 @@ func migrateDB() {
 	DB.AutoMigrate(
 		&User{},
 		&Customer{},
-		&CustomerPayment{})
+		&CustomerPayment{},
+		&CustomerAddress{},
+		&Products{},
+		&ProductsCategory{},
+	)
 }
