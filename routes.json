@@ -10,11 +10,6 @@
     "name": "order-management/controllers.ListCustomer"
   },
   {
-    "method": "DELETE",
-    "path": "/v1/customers/:id",
-    "name": "order-management/controllers.DeleteCustomer"
-  },
-  {
     "method": "GET",
     "path": "/",
     "name": "main.main.func1"

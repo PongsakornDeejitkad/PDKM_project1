@@ -34,5 +34,7 @@ func migrateDB() {
 		&CustomerAddress{},
 		&Products{},
 		&ProductsCategory{},
+		&Admins{},
+		&AdminType{},
 	)
 }
