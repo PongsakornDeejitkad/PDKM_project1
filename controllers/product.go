@@ -10,7 +10,7 @@ import (
 )
 
 func CreateProduct(c echo.Context) error {
-	product := models.Product{}
+	product := models.Products{}
 	c.Bind(&product)
 
 	if err := models.DB.Create(&product).Error; err != nil {
@@ -23,7 +23,7 @@ func CreateProduct(c echo.Context) error {
 }
 
 func GetProduct(c echo.Context) error {
-	product := models.Product{}
+	product := models.Products{}
 
 	productIdString := c.Param("id")
 	productId, _ := strconv.Atoi(productIdString)
@@ -44,7 +44,7 @@ func GetProduct(c echo.Context) error {
 }
 
 func ListProduct(c echo.Context) error {
-	products := []models.Product{}
+	products := []models.Products{}
 
 	if err := models.DB.Find(&products).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
