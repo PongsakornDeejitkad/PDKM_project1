@@ -10,8 +10,9 @@ func CustomerRoutes(e *echo.Group) {
 	customerRoute := e.Group("/customers")
 
 	customerRoute.POST("", controllers.CreateCustomer)
+	customerRoute.POST("/:customerID/address", controllers.CreateCustomerAddress)
 	customerRoute.GET("/:id", controllers.GetCustomer)
 	customerRoute.GET("", controllers.ListCustomer)
-	// customerRoute.DELETE("/:id", controllers.DeleteCustomer)
+	customerRoute.DELETE("/:id", controllers.DeleteCustomer)
 
 }
