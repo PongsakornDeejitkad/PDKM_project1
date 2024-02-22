@@ -40,5 +40,5 @@ type CustomerAddress struct {
 	CreatedAt   time.Time `json:"created_at" gorm:"default: NOW()"`
 	UpdatedAt   time.Time `json:"updated_at" gorm:"default: NOW()"`
 
-	Customer Customers `json:"customer" gorm:"foreignKey:CustomerID"`
+	Customer Customers `json:"-" gorm:"foreignKey:CustomerID"`
 }
