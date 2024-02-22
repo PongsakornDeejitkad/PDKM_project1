@@ -12,4 +12,5 @@ func AdminRoutes(e *echo.Group) {
 	adminRoute.POST("", controllers.CreateAdmin)
 	adminRoute.GET("/:id", controllers.GetAdmin)
 	adminRoute.GET("", controllers.ListAdmin)
+	adminRoute.POST("/:adminId/type", controllers.CreateAdminType)
 }

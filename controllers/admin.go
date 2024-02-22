@@ -50,3 +50,24 @@ func ListAdmin(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, admin)
 }
+
+func CreateAdminType(c echo.Context) error {
+	adminType := models.AdminType{}
+	c.Bind(&adminType)
+
+	adminId := c.Param("adminId")
+	admin := models.Admins{}
+	if err := models.DB.First(&admin, adminId).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "admin not found",
+		})
+	}
+	adminType.ID = admin.ID
+
+	if err := models.DB.Create(&adminType).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, adminType)
+}
