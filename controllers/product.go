@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"gorm.io/gorm"
 )
 
@@ -52,4 +53,32 @@ func ListProduct(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, products)
+}
+
+func DeleteProduct(c echo.Context) error {
+	product := models.Products{}
+
+	productIdString := c.Param("id")
+	productId, _ := strconv.Atoi(productIdString)
+
+	if err := models.DB.First(&product, productId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "product not found",
+			})
+
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := models.DB.Delete(&product).Error; err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Failed to delete customer",
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Customer deleted successfully",
+	})
 }
