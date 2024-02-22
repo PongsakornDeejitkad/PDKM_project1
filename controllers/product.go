@@ -34,7 +34,6 @@ func GetProduct(c echo.Context) error {
 				"message": "Product not found",
 			})
 		}
-
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": err,
 		})

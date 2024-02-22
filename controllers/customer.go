@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"order-management/models"
 	"strconv"
@@ -42,8 +41,28 @@ func CreateCustomerAddress(c echo.Context) error {
 			"message": err,
 		})
 	}
-	fmt.Println(address)
 	return c.JSON(http.StatusOK, address)
+}
+
+func CreateCustomerPayment(c echo.Context) error {
+	payment := models.CustomerPayment{}
+	c.Bind(&payment)
+
+	customerID := c.Param("customerID")
+	customer := models.Customers{}
+	if err := models.DB.First(&customer, customerID).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "Customer not found",
+		})
+	}
+	payment.CustomerID = customer.ID
+
+	if err := models.DB.Create(&payment).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, payment)
 }
 
 func GetCustomer(c echo.Context) error {

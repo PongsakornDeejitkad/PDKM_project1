@@ -12,7 +12,7 @@ import (
 func CreateAdmin(c echo.Context) error {
 	admin := models.Admins{}
 	c.Bind(&admin)
-	if err := models.DB.Create(&admin); err != nil {
+	if err := models.DB.Create(&admin).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": err,
 		})

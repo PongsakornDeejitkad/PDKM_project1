@@ -33,13 +33,15 @@ func init() {
 func main() {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		return c.String(http.StatusOK, "Hello, World! frame")
 	})
 
 	v1 := e.Group("/v1")
 	// v1.Use(utils.JWTMiddleware) waiting for middleware
 
 	routes.CustomerRoutes(v1)
+	routes.AdminRoutes(v1)
+	routes.ProductRoutes(v1)
 
 	serveGracefulShutdown(e)
 }
