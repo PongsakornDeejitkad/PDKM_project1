@@ -27,9 +27,9 @@ func CreateCustomerAddress(c echo.Context) error {
 	address := models.CustomerAddress{}
 	c.Bind(&address)
 
-	customerID := c.Param("customerID")
+	customerId := c.Param("customerId")
 	customer := models.Customers{}
-	if err := models.DB.First(&customer, customerID).Error; err != nil {
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
 			"message": "Customer not found",
 		})
@@ -48,9 +48,9 @@ func CreateCustomerPayment(c echo.Context) error {
 	payment := models.CustomerPayment{}
 	c.Bind(&payment)
 
-	customerID := c.Param("customerID")
+	customerId := c.Param("customerId")
 	customer := models.Customers{}
-	if err := models.DB.First(&customer, customerID).Error; err != nil {
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
 			"message": "Customer not found",
 		})
