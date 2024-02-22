@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"gorm.io/gorm"
 )
 
@@ -49,6 +50,32 @@ func ListAdmin(c echo.Context) error {
 
 	}
 	return c.JSON(http.StatusOK, admin)
+}
+func DeleteAdmin(c echo.Context) error {
+	admin := models.Admins{}
+
+	adminIdString := c.Param("id")
+	adminId, _ := strconv.Atoi(adminIdString)
+	if err := models.DB.First(&admin, adminId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "admin not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := models.DB.Delete(&admin).Error; err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Failed to delete admin",
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "deleted admin successfully",
+	})
+
 }
 
 func CreateAdminType(c echo.Context) error {
