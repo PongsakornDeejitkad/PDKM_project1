@@ -30,5 +30,5 @@ type ProductsCategory struct {
 	UpdatedAt   time.Time      `json:"updated_at" gorm:"default: NOW()"`
 	DeletedAt   gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
-	Products []Products `json:"products" gorm:"foreignKey:CategoryID"`
+	Products []Products `json:"-" gorm:"foreignKey:CategoryID"`
 }

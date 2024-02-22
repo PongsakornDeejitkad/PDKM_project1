@@ -29,5 +29,5 @@ type AdminType struct {
 	CreatedAt  time.Time `json:"created_at" gorm:"default:NOW()"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"default:NOW()"`
 
-	Admin []Admins `json:"admin" gorm:"foreignKey:TypeID"`
+	Admin []Admins `json:"-" gorm:"foreignKey:TypeID"`
 }
