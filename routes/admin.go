@@ -13,4 +13,5 @@ func AdminRoutes(e *echo.Group) {
 	adminRoute.GET("/:id", controllers.GetAdmin)
 	adminRoute.GET("", controllers.ListAdmin)
 	adminRoute.POST("/:adminId/type", controllers.CreateAdminType)
+	adminRoute.DELETE("/:id", controllers.DeleteAdmin)
 }
