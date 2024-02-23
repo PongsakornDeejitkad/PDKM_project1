@@ -13,6 +13,7 @@ func AdminRoutes(e *echo.Group) {
 	adminRoute.POST("/type", controllers.CreateAdminType)
 	adminRoute.GET("/:id", controllers.GetAdmin)
 	adminRoute.GET("", controllers.ListAdmin)
+	adminRoute.GET("/types", controllers.ListAdminTypes)
 	adminRoute.DELETE("/:id", controllers.DeleteAdminById)
 	adminRoute.DELETE("/type/:typeId", controllers.DeleteAdminTypeById)
 }

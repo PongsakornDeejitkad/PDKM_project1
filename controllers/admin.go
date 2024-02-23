@@ -88,6 +88,16 @@ func CreateAdminType(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, adminType)
 }
+func ListAdminTypes(c echo.Context) error {
+	adminType := []models.AdminType{}
+	if err := models.DB.Find(&adminType).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, adminType)
+}
+
 func DeleteAdminTypeById(c echo.Context) error {
 	adminType := models.AdminType{}
 
