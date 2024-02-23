@@ -13,6 +13,7 @@ type Customers struct {
 
 	CustomerPayments []CustomerPayment `json:"-" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	CustomerAddress  []CustomerAddress `json:"-" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Orders           []Orders          `json:"-" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type CustomerPayment struct {
