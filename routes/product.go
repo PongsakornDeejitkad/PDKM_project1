@@ -13,6 +13,7 @@ func ProductRoutes(e *echo.Group) {
 	productRoute.POST("/category", controllers.CreateProductCategory)
 	productRoute.GET("/:id", controllers.GetProduct)
 	productRoute.GET("", controllers.ListProduct)
+	productRoute.GET("/categories", controllers.ListProductCategories)
 	productRoute.DELETE("/:id", controllers.DeleteProductById)
 	productRoute.DELETE("/category/:categoryId", controllers.DeleteProductCategoryById)
 

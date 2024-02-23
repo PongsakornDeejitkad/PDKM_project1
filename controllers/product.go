@@ -83,6 +83,16 @@ func DeleteProductById(c echo.Context) error {
 	})
 }
 
+func ListProductCategories(c echo.Context) error {
+	categories := []models.ProductsCategory{}
+	if err := models.DB.Find(&categories).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, categories)
+}
+
 func CreateProductCategory(c echo.Context) error {
 	category := models.ProductsCategory{}
 	c.Bind(&category)
