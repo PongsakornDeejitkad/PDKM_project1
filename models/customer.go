@@ -11,8 +11,8 @@ type Customers struct {
 	CreatedAt time.Time `json:"created_at" gorm:"default: NOW()"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"default: NOW()"`
 
-	CustomerPayments []CustomerPayment `json:"customer_payments" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
-	CustomerAddress  []CustomerAddress `json:"customer_address" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	CustomerPayments []CustomerPayment `json:"-" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	CustomerAddress  []CustomerAddress `json:"-" gorm:"foreignKey:CustomerID; cascade; constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type CustomerPayment struct {

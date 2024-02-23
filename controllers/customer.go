@@ -98,7 +98,7 @@ func ListCustomer(c echo.Context) error {
 	return c.JSON(http.StatusOK, customers)
 }
 
-func DeleteCustomer(c echo.Context) error {
+func DeleteCustomerById(c echo.Context) error {
 	customer := models.Customers{}
 
 	customerIdString := c.Param("id")
