@@ -10,8 +10,9 @@ func AdminRoutes(e *echo.Group) {
 	adminRoute := e.Group("/admins")
 
 	adminRoute.POST("", controllers.CreateAdmin)
+	adminRoute.POST("/type", controllers.CreateAdminType)
 	adminRoute.GET("/:id", controllers.GetAdmin)
 	adminRoute.GET("", controllers.ListAdmin)
-	adminRoute.POST("/:adminId/type", controllers.CreateAdminType)
-	adminRoute.DELETE("/:id", controllers.DeleteAdmin)
+	adminRoute.DELETE("/:id", controllers.DeleteAdminById)
+	adminRoute.DELETE("/type/:typeId", controllers.DeleteAdminTypeById)
 }
