@@ -51,7 +51,7 @@ func ListAdmin(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, admin)
 }
-func DeleteAdmin(c echo.Context) error {
+func DeleteAdminById(c echo.Context) error {
 	admin := models.Admins{}
 
 	adminIdString := c.Param("id")
@@ -81,20 +81,35 @@ func DeleteAdmin(c echo.Context) error {
 func CreateAdminType(c echo.Context) error {
 	adminType := models.AdminType{}
 	c.Bind(&adminType)
-
-	adminId := c.Param("adminId")
-	admin := models.Admins{}
-	if err := models.DB.First(&admin, adminId).Error; err != nil {
-		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"message": "admin not found",
-		})
-	}
-	adminType.ID = admin.ID
-
 	if err := models.DB.Create(&adminType).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": err,
 		})
 	}
 	return c.JSON(http.StatusOK, adminType)
+}
+func DeleteAdminTypeById(c echo.Context) error {
+	adminType := models.AdminType{}
+
+	adminTypeIdString := c.Param("typeId")
+	typeId, _ := strconv.Atoi(adminTypeIdString)
+	if err := models.DB.First(&adminType, typeId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "Admin type not Found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := models.DB.Delete(&adminType).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Failed to delete admin type",
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Admin type deleted successfully",
+	})
+
 }
