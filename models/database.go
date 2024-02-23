@@ -21,7 +21,7 @@ func ConnectDB() error {
 	var err error
 	DB, err = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 
-	// migrateDB()
+	migrateDB()
 
 	return err
 }
@@ -35,5 +35,11 @@ func migrateDB() {
 		&ProductsCategory{},
 		&Admins{},
 		&AdminType{},
+		&Sessions{},
+		&CartItems{},
+		&Orders{},
+		&OrderItems{},
+		&PaymentDetails{},
+		&CourierDetails{},
 	)
 }
