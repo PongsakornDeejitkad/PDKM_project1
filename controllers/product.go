@@ -55,7 +55,7 @@ func ListProduct(c echo.Context) error {
 	return c.JSON(http.StatusOK, products)
 }
 
-func DeleteProduct(c echo.Context) error {
+func DeleteProductById(c echo.Context) error {
 	product := models.Products{}
 
 	productIdString := c.Param("id")
@@ -81,4 +81,40 @@ func DeleteProduct(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Customer deleted successfully",
 	})
+}
+
+func CreateProductCategory(c echo.Context) error {
+	category := models.ProductsCategory{}
+	c.Bind(&category)
+	if err := models.DB.Create(&category).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, category)
+}
+
+func DeleteProductCategoryById(c echo.Context) error {
+	category := models.ProductsCategory{}
+
+	categoryIdString := c.Param("categoryId")
+	categoryId, _ := strconv.Atoi(categoryIdString)
+	if err := models.DB.First(&category, categoryId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "categoryId not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := models.DB.Delete(&category).Error; err != nil {
+		log.Error(err)
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Failed to delete Product category",
+		})
+	}
+	return c.JSON(http.StatusOK, category)
+
 }

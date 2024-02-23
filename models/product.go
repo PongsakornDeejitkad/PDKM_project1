@@ -19,7 +19,7 @@ type Products struct {
 	UpdatedAt    time.Time      `json:"updated_at" gorm:"default: NOW()"`
 	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
-	Category ProductsCategory `json:"category" gorm:"foreignKey:CategoryID"`
+	Category ProductsCategory `json:"-" gorm:"foreignKey:CategoryID"`
 }
 
 type ProductsCategory struct {

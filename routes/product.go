@@ -10,8 +10,10 @@ func ProductRoutes(e *echo.Group) {
 	productRoute := e.Group("/products")
 
 	productRoute.POST("", controllers.CreateProduct)
+	productRoute.POST("/category", controllers.CreateProductCategory)
 	productRoute.GET("/:id", controllers.GetProduct)
 	productRoute.GET("", controllers.ListProduct)
-	productRoute.DELETE("/:id", controllers.DeleteProduct)
+	productRoute.DELETE("/:id", controllers.DeleteProductById)
+	productRoute.DELETE("/category/:categoryId", controllers.DeleteProductCategoryById)
 
 }
