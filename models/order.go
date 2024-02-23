@@ -20,6 +20,7 @@ type Orders struct {
 	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
 	OrderItems []OrderItems `json:"-" gorm:"foreignKey:OrderId"`
+	Customer   Customers    `json:"-" gorm:"foreignKey:CustomerId"`
 }
 
 type OrderItems struct {
@@ -29,7 +30,8 @@ type OrderItems struct {
 	Quantity  int       `json:"quantity" gorm:"integer"`
 	CreatedAt time.Time `json:"created_at" gorm:"default:NOW()"`
 
-	Order Orders `json:"-" gorm:"foreignKey:OrderId"`
+	Order   Orders   `json:"-" gorm:"foreignKey:OrderId"`
+	Product Products `json:"-" gorm:"foreignKey:ProductId"`
 }
 
 type PaymentDetails struct {
