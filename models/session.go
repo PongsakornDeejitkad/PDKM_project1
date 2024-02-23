@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Sessions struct {
 	ID        int       `json:"id" gorm:"primary_key"`
@@ -10,6 +12,7 @@ type Sessions struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:Now()"`
 
 	CartItems []CartItems `json:"-" gorm:"foreignKey:SessionId"`
+	customers Customers   `json:"-" gorm:"foreignKey:UserId"`
 }
 
 type CartItems struct {
@@ -21,4 +24,5 @@ type CartItems struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:Now()"`
 
 	Session Sessions `json:"-" gorm:"foreignKey:SessionId"`
+	Product Products `json:"-" gorm:"foreignKey:ProductId"`
 }
