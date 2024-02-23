@@ -125,6 +125,8 @@ func DeleteProductCategoryById(c echo.Context) error {
 			"message": "Failed to delete Product category",
 		})
 	}
-	return c.JSON(http.StatusOK, category)
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Product category deleted successfully",
+	})
 
 }
