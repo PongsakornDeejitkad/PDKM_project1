@@ -20,6 +20,7 @@ type Products struct {
 	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
 	Category ProductsCategory `json:"-" gorm:"foreignKey:CategoryID"`
+
 }
 
 type ProductsCategory struct {
