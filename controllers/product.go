@@ -51,7 +51,6 @@ func ListProduct(c echo.Context) error {
 			"message": err,
 		})
 	}
-
 	return c.JSON(http.StatusOK, products)
 }
 
