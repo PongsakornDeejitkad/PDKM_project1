@@ -68,7 +68,7 @@ func CreateCartItems(c echo.Context) error {
 func ListCartItems(c echo.Context) error {
 	cart := []models.CartItems{}
 
-	if err := models.DB.Find(cart).Error; err != nil {
+	if err := models.DB.Find(&cart).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": err,
 		})

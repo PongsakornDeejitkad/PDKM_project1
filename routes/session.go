@@ -10,7 +10,7 @@ func SessionRoutes(e *echo.Group) {
 	sessionRoutes := e.Group("/sessions")
 
 	sessionRoutes.GET("", controllers.ListSessions)
-	sessionRoutes.GET("/cartItem", controllers.ListCartItems)
+	sessionRoutes.GET("/cartItems", controllers.ListCartItems)
 	sessionRoutes.GET("/cartItem/:id", controllers.GetCartItems)
 	sessionRoutes.POST("", controllers.CreateSession)
 	sessionRoutes.POST("/cartItem", controllers.CreateCartItems)
