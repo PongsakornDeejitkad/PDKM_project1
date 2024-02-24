@@ -43,6 +43,7 @@ func main() {
 	routes.AdminRoutes(v1)
 	routes.ProductRoutes(v1)
 	routes.SessionRoutes(v1)
+	routes.OrderRoutes(v1)
 
 	serveGracefulShutdown(e)
 }

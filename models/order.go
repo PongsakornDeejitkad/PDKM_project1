@@ -20,7 +20,7 @@ type Orders struct {
 	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
 	OrderItems []OrderItems `json:"-" gorm:"foreignKey:OrderId"`
-	Customer   Customers    `json:"-" gorm:"foreignKey:CustomerId"`
+	// Customer   Customers    `json:"-" gorm:"foreignKey:CustomerId"`
 }
 
 type OrderItems struct {

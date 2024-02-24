@@ -23,48 +23,6 @@ func CreateCustomer(c echo.Context) error {
 	return c.JSON(http.StatusOK, customer)
 }
 
-func CreateCustomerAddress(c echo.Context) error {
-	address := models.CustomerAddress{}
-	c.Bind(&address)
-
-	customerId := c.Param("customerId")
-	customer := models.Customers{}
-	if err := models.DB.First(&customer, customerId).Error; err != nil {
-		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"message": "Customer not found",
-		})
-	}
-	address.CustomerID = customer.ID
-
-	if err := models.DB.Create(&address).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	return c.JSON(http.StatusOK, address)
-}
-
-func CreateCustomerPayment(c echo.Context) error {
-	payment := models.CustomerPayment{}
-	c.Bind(&payment)
-
-	customerId := c.Param("customerId")
-	customer := models.Customers{}
-	if err := models.DB.First(&customer, customerId).Error; err != nil {
-		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"message": "Customer not found",
-		})
-	}
-	payment.CustomerID = customer.ID
-
-	if err := models.DB.Create(&payment).Error; err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-	return c.JSON(http.StatusOK, payment)
-}
-
 func GetCustomer(c echo.Context) error {
 	customer := models.Customers{}
 
@@ -86,7 +44,7 @@ func GetCustomer(c echo.Context) error {
 	return c.JSON(http.StatusOK, customer)
 }
 
-func ListCustomer(c echo.Context) error {
+func ListCustomers(c echo.Context) error {
 	customers := []models.Customers{}
 
 	if err := models.DB.Find(&customers).Error; err != nil {
@@ -125,4 +83,80 @@ func DeleteCustomerById(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Customer deleted successfully",
 	})
+}
+
+func CreateCustomerAddress(c echo.Context) error {
+	address := models.CustomerAddress{}
+	c.Bind(&address)
+
+	customerIdString := c.Param("customerId")
+	customerId, _ := strconv.Atoi(customerIdString)
+	customer := models.Customers{}
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "customer not found",
+			})
+		}
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "Customer not found",
+		})
+	}
+	address.CustomerID = customer.ID
+
+	if err := models.DB.Create(&address).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, address)
+}
+
+func ListCustomerAddress(c echo.Context) error {
+	addresses := []models.CustomerAddress{}
+	customer := models.Customers{}
+
+	customerIdString := c.Param("customerId")
+	customerId, _ := strconv.Atoi(customerIdString)
+
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "customer not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	if err := models.DB.Where("customer_id = ?", customerId).Find(&addresses).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, addresses)
+
+}
+
+func CreateCustomerPayment(c echo.Context) error {
+	payment := models.CustomerPayment{}
+	c.Bind(&payment)
+
+	customerId := c.Param("customerId")
+	customer := models.Customers{}
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "Customer not found",
+		})
+	}
+	payment.CustomerID = customer.ID
+
+	if err := models.DB.Create(&payment).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	return c.JSON(http.StatusOK, payment)
 }

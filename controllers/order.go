@@ -80,3 +80,78 @@ func DeleteOrder(c echo.Context) error {
 		"message": "Order delete sucessfully",
 	})
 }
+
+func CreateOrderItem(c echo.Context) error {
+	orderItem := models.OrderItems{}
+	c.Bind(&orderItem)
+
+	if err := models.DB.Create(&orderItem).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, orderItem)
+
+}
+
+func ListOrderItems(c echo.Context) error {
+	orderItem := []models.OrderItems{}
+
+	if err := models.DB.Find(&orderItem).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, orderItem)
+
+}
+
+func GetOrderItem(c echo.Context) error {
+	orderItem := models.OrderItems{}
+
+	orderItemIdstring := c.Param(":orderItemId")
+	orderItemId, _ := strconv.Atoi(orderItemIdstring)
+
+	if err := models.DB.First(&orderItem, orderItemId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "order item not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, orderItem)
+}
+
+func DeleteOrderItem(c echo.Context) error {
+	orderItem := models.OrderItems{}
+
+	orderItemIdString := c.Param(":orderItemId")
+	orderItemId, _ := strconv.Atoi(orderItemIdString)
+
+	if err := models.DB.First(&orderItem, orderItemId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "orderItem not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	if err := models.DB.Delete(&orderItem, orderItemId).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "delete order item sucessfully",
+	})
+}

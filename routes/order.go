@@ -11,7 +11,11 @@ func OrderRoutes(e *echo.Group) {
 
 	orderRoute.GET("", controllers.ListOrders)
 	orderRoute.GET("/:id", controllers.GetOrder)
-	orderRoute.POST("/:id", controllers.CreateOrder)
+	orderRoute.GET("orderItems", controllers.ListOrderItems)
+	orderRoute.GET("orderItems/:orderItemId", controllers.GetOrderItem)
+	orderRoute.POST("orderItems", controllers.CreateOrderItem)
+	orderRoute.POST("", controllers.CreateOrder)
 	orderRoute.DELETE("/:id", controllers.DeleteOrder)
+	orderRoute.DELETE("orderItems/:orderItemId", controllers.DeleteOrderItem)
 
 }
