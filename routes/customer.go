@@ -14,7 +14,8 @@ func CustomerRoutes(e *echo.Group) {
 	customerRoute.POST("/:customerId/payment", controllers.CreateCustomerPayment)
 	customerRoute.GET("/:id", controllers.GetCustomer)
 	customerRoute.GET("", controllers.ListCustomers)
-	customerRoute.GET("/:customerId/address", controllers.ListCustomerAddress)
+	customerRoute.GET("/:customerId/address", controllers.ListCustomerAddresses)
+	customerRoute.GET("/:customerId/payment", controllers.ListCustomerPayments)
 	customerRoute.DELETE("/:id", controllers.DeleteCustomerById)
 
 }

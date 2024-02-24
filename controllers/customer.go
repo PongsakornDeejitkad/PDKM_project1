@@ -112,7 +112,7 @@ func CreateCustomerAddress(c echo.Context) error {
 	return c.JSON(http.StatusOK, address)
 }
 
-func ListCustomerAddress(c echo.Context) error {
+func ListCustomerAddresses(c echo.Context) error {
 	addresses := []models.CustomerAddress{}
 	customer := models.Customers{}
 
@@ -159,4 +159,32 @@ func CreateCustomerPayment(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, payment)
+}
+
+func ListCustomerPayments(c echo.Context) error {
+	payments := []models.CustomerPayment{}
+	customer := models.Customers{}
+
+	customerIdString := c.Param("customerId")
+	customerId, _ := strconv.Atoi(customerIdString)
+
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, map[string]interface{}{
+				"message": "customer not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	if err := models.DB.Where("customer_id = ?", customerId).Find(&payments).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, payments)
+
 }
