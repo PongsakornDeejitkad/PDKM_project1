@@ -21,7 +21,7 @@ func CreateSession(c echo.Context) error {
 }
 
 func ListSessions(c echo.Context) error {
-	session := models.Sessions{}
+	session := []models.Sessions{}
 	if err := models.DB.Find(&session).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": err,
@@ -66,7 +66,7 @@ func CreateCartItems(c echo.Context) error {
 }
 
 func ListCartItems(c echo.Context) error {
-	cart := models.CartItems{}
+	cart := []models.CartItems{}
 
 	if err := models.DB.Find(cart).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
