@@ -31,25 +31,6 @@ func ListSessions(c echo.Context) error {
 	return c.JSON(http.StatusOK, session)
 }
 
-func GetSession(c echo.Context) error {
-	session := models.Sessions{}
-
-	sessionIdString := c.Param("id")
-	sessionId, _ := strconv.Atoi(sessionIdString)
-	if err := models.DB.First(&session, sessionId).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return c.JSON(http.StatusNotFound, map[string]interface{}{
-				"message": "session not found",
-			})
-		}
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": err,
-		})
-	}
-
-	return c.JSON(http.StatusOK, session)
-}
-
 func DeleteSession(c echo.Context) error {
 	session := models.Sessions{}
 
@@ -71,7 +52,7 @@ func DeleteSession(c echo.Context) error {
 	})
 }
 
-func CreateCart(c echo.Context) error {
+func CreateCartItems(c echo.Context) error {
 	cart := models.CartItems{}
 	c.Bind(&cart)
 
