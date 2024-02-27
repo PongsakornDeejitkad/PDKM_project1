@@ -37,6 +37,7 @@ func main() {
 	})
 
 	v1 := e.Group("/v1")
+
 	// v1.Use(utils.JWTMiddleware) waiting for middleware
 
 	routes.CustomerRoutes(v1)

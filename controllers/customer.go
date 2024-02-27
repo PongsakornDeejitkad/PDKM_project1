@@ -56,6 +56,36 @@ func ListCustomers(c echo.Context) error {
 	return c.JSON(http.StatusOK, customers)
 }
 
+func UpdateCustomer(c echo.Context) error {
+	customer := models.Customers{}
+
+	customerIdString := c.Param("id")
+	customerId, _ := strconv.Atoi(customerIdString)
+	if err := models.DB.First(&customer, customerId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+				"message": "Customer not found",
+			})
+		}
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := c.Bind(&customer); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err,
+		})
+	}
+	if err := models.DB.Save(&customer).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": err,
+		})
+	}
+
+	return c.JSON(http.StatusOK, customer)
+
+}
+
 func DeleteCustomerById(c echo.Context) error {
 	customer := models.Customers{}
 
