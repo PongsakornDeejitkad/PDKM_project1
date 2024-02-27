@@ -7,20 +7,20 @@ import (
 )
 
 type Orders struct {
-	ID           int            `json:"id" gorm:"primary_key"`
-	CustomerId   int            `json:"customer_id" gorm:"integer ; not null"`
-	CourierId    int            `json:"courier_id" gorm:"integer"`
-	PaymentId    int            `json:"payment_id" gorm:"integer"`
-	OrderAddress string         `json:"order_address" gorm:"varchar"`
-	OrderEmail   string         `json:"order_email" gorm:"varchar"`
-	OrderStatus  string         `json:"order_status" gorm:"varchar"`
-	OrderDate    time.Time      `json:"order_date" gorm:"default:NOW()"`
-	CreatedAt    time.Time      `json:"created_at" gorm:"default:NOW()"`
-	UpdatedAt    time.Time      `json:"updated_at" gorm:"default:Now()"`
-	DeletedAt    gorm.DeletedAt `json:"deleted_at" gorm:"index"`
+	ID         int            `json:"id" gorm:"primary_key"`
+	CustomerId int            `json:"customer_id" gorm:"not null;integer"`
+	CourierId  int            `json:"courier_id" gorm:"integer"`
+	PaymentId  int            `json:"payment_id" gorm:"integer"`
+	Address    string         `json:"address" gorm:"varchar"`
+	Email      string         `json:"email" gorm:"varchar"`
+	Status     string         `json:"status" gorm:"varchar"`
+	Date       time.Time      `json:"date" gorm:"default:NOW()"`
+	CreatedAt  time.Time      `json:"created_at" gorm:"default:NOW()"`
+	UpdatedAt  time.Time      `json:"updated_at" gorm:"default:NOW()"`
+	DeletedAt  gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 
-	OrderItems []OrderItems `json:"-" gorm:"foreignKey:OrderId"`
-	// Customer   Customers    `json:"-" gorm:"foreignKey:CustomerId"`
+	OrderItem []OrderItems `json:"-" gorm:"foreignKey:OrderId"`
+	Customer  Customers    `json:"-" gorm:"foreignKey:CustomerId"`
 }
 
 type OrderItems struct {
@@ -35,19 +35,20 @@ type OrderItems struct {
 }
 
 type PaymentDetails struct {
-	ID           int       `json:"id" gorm:"primary_key"`
-	CustomerId   int       `json:"customer_id" gorm:"integer"`
-	Amount       int       `json:"amount" gorm:"integer"`
-	Provider     int       `json:"provider" gorm:"integer"`
-	Status       string    `json:"status" gorm:"varchar"`
-	ModifiedDate time.Time `json:"updated_at" gorm:"default:Now()"`
-	CreatedAt    time.Time `json:"created_at" gorm:"default:NOW()"`
+	ID        int       `json:"id" gorm:"primary_key"`
+	PaymentId int       `json:"payment_id" gorm:"unique;not null;integer"`
+	Amount    int       `json:"amount" gorm:"integer"`
+	Provider  int       `json:"provider" gorm:"integer"`
+	Status    string    `json:"status" gorm:"varchar"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"default:NOW()"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:NOW()"`
 
-	Order Orders `json:"-" gorm:"foreignKey:CustomerId"`
+	Order Orders `json:"-" gorm:"foreignKey:PaymentId"`
 }
 
 type CourierDetails struct {
 	ID          int    `json:"id" gorm:"primary_key"`
+	CourierId   int    `json:"courier_id" gorm:"integer"`
 	Name        string `json:"name" gorm:"varchar"`
 	CourierType string `json:"courier_type" gorm:"varchar"`
 

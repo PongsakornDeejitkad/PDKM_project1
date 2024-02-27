@@ -12,7 +12,7 @@ type Sessions struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"default:Now()"`
 
 	CartItems []CartItems `json:"-" gorm:"foreignKey:SessionId"`
-	customers Customers   `json:"-" gorm:"foreignKey:UserId"`
+	Customers Customers   `json:"-" gorm:"foreignKey:UserId"`
 }
 
 type CartItems struct {
